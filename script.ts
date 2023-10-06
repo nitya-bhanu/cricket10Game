@@ -160,6 +160,7 @@ class cricketPlay {
   totalTeam2Runs: any = 0;
   tempTotal2: any = 0;
   exitGame: any = 0;
+  loopSwitch: any = 0;
 
   maxRowNumber1: any = 0;
   maxScore1: any = 0;
@@ -219,12 +220,6 @@ class cricketPlay {
     Button2.setAttribute("class", "btn btn-primary disabled");
     Button2.removeEventListener("click", game.hitClicked, false);
     buttonX.style.display = "block";
-    // if(this.totalTeam1Runs>this.totalTeam2Runs)
-    //   result.innerHTML=(`Team 1 is winner by scoring ${this.totalTeam1Runs-this.totalTeam2Runs} runs and man of the match
-    //   is Player number ${this.maxRowNumber1} with ${this.maxScore1} runs`);
-    // else 
-    // result.innerHTML=(`Team 2 is winner by scoring ${this.totalTeam2Runs-this.totalTeam1Runs} runs and man of the match
-    //   is Player number ${this.maxRowNumber2} with ${this.maxScore2} runs`);
 
     buttonX.addEventListener("click", () => {
       const resultText = document.createElement("p");
@@ -242,6 +237,59 @@ class cricketPlay {
     });
     this.resetTimer();
   }
+  runEvents = () => {
+    var emptyRuns1 = document.createElement("td");
+    emptyRuns1.innerHTML = ' ';
+    var emptyRuns2 = document.createElement("td");
+    emptyRuns2.innerHTML = ' ';
+    var emptyRuns3 = document.createElement("td");
+    emptyRuns3.innerHTML = ' ';
+    var emptyRuns4 = document.createElement("td");
+    emptyRuns4.innerHTML = ' ';
+    var emptyRuns5 = document.createElement("td");
+    emptyRuns5.innerHTML = ' ';
+    if (this.bigSwitch === 1) {
+      if (this.playerXballPlayed === 1) {
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns1);
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns2);
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns3);
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns4);
+      }
+      else if (this.playerXballPlayed === 2) {
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns1);
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns2);
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns3);
+      }
+      else if (this.playerXballPlayed === 3) {
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns1);
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns2);
+      }
+      else if (this.playerXballPlayed === 4) {
+        document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(emptyRuns1);
+      }
+    }
+    else if (this.bigSwitch === 2) {
+      if (this.playerXballPlayed === 1) {
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns1);
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns2);
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns3);
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns4);
+      }
+      else if (this.playerXballPlayed === 2) {
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns1);
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns2);
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns3);
+      }
+      else if (this.playerXballPlayed === 3) {
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns1);
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns2);
+      }
+      else if (this.playerXballPlayed === 4) {
+        document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(emptyRuns1);
+      }
+    }
+    this.playerXballPlayed = 6;
+  };
   hitClicked = () => {
     let tempRun = this.randomRunGenerator();
     if (this.bigSwitch === 1 && this.exitGame != 1) {
@@ -260,17 +308,18 @@ class cricketPlay {
             this.maxScore1 = this.tempTotal1;
             this.maxRowNumber1 = this.team1PlayerPlayed;
           }
+          this.playerXballPlayed++;
         }
         else {
           var currRuns = document.createElement("td");
           currRuns.innerHTML = `X`;
           document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(currRuns);
+          this.runEvents();
         }
-        this.playerXballPlayed++;
       }
       else if (this.playerXballPlayed === 6) {
         var currRuns = document.createElement("td");
-        currRuns.innerHTML = this.tempTotal1;
+        currRuns.innerHTML = `${this.tempTotal1}`;
         document.getElementById(`t${this.bigSwitch}${this.team1PlayerPlayed}`).appendChild(currRuns);
         this.playerXballPlayed = 0;
         this.team1PlayerPlayed++;
@@ -290,6 +339,7 @@ class cricketPlay {
           this.addClass();
         }
       }
+
     }
 
     if (this.bigSwitch === 2) {
@@ -302,23 +352,24 @@ class cricketPlay {
           var currRuns = document.createElement("td");
           currRuns.innerHTML = `${tempRun}`;
           document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(currRuns);
-          this.tempTotal1 = this.tempTotal1 + tempRun;
+          this.tempTotal2 = this.tempTotal2 + tempRun;
 
           if (this.tempTotal2 > this.maxScore2) {
             this.maxScore2 = this.tempTotal2;
             this.maxRowNumber2 = this.team2PlayerPlayed;
           }
+          this.playerXballPlayed++;
         }
         else {
           var currRuns = document.createElement("td");
           currRuns.innerHTML = `X`;
           document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(currRuns);
+          this.runEvents();
         }
-        this.playerXballPlayed++;
       }
       else if (this.playerXballPlayed === 6) {
         var currRuns = document.createElement("td");
-        currRuns.innerHTML = this.tempTotal1;
+        currRuns.innerHTML = this.tempTotal2;
         document.getElementById(`t${this.bigSwitch}${this.team2PlayerPlayed}`).appendChild(currRuns);
         this.playerXballPlayed = 0;
         this.team2PlayerPlayed++;

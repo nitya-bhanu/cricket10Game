@@ -134,6 +134,7 @@ var cricketPlay = /** @class */ (function () {
         this.totalTeam2Runs = 0;
         this.tempTotal2 = 0;
         this.exitGame = 0;
+        this.loopSwitch = 0;
         this.maxRowNumber1 = 0;
         this.maxScore1 = 0;
         this.maxRowNumber2 = 0;
@@ -184,12 +185,6 @@ var cricketPlay = /** @class */ (function () {
             Button2.setAttribute("class", "btn btn-primary disabled");
             Button2.removeEventListener("click", game.hitClicked, false);
             buttonX.style.display = "block";
-            // if(this.totalTeam1Runs>this.totalTeam2Runs)
-            //   result.innerHTML=(`Team 1 is winner by scoring ${this.totalTeam1Runs-this.totalTeam2Runs} runs and man of the match
-            //   is Player number ${this.maxRowNumber1} with ${this.maxScore1} runs`);
-            // else 
-            // result.innerHTML=(`Team 2 is winner by scoring ${this.totalTeam2Runs-this.totalTeam1Runs} runs and man of the match
-            //   is Player number ${this.maxRowNumber2} with ${this.maxScore2} runs`);
             buttonX.addEventListener("click", function () {
                 var resultText = document.createElement("p");
                 if (_this.totalTeam1Runs > _this.totalTeam2Runs) {
@@ -201,6 +196,59 @@ var cricketPlay = /** @class */ (function () {
                 document.getElementById("table_column2").appendChild(resultText);
             });
             _this.resetTimer();
+        };
+        this.runEvents = function () {
+            var emptyRuns1 = document.createElement("td");
+            emptyRuns1.innerHTML = ' ';
+            var emptyRuns2 = document.createElement("td");
+            emptyRuns2.innerHTML = ' ';
+            var emptyRuns3 = document.createElement("td");
+            emptyRuns3.innerHTML = ' ';
+            var emptyRuns4 = document.createElement("td");
+            emptyRuns4.innerHTML = ' ';
+            var emptyRuns5 = document.createElement("td");
+            emptyRuns5.innerHTML = ' ';
+            if (_this.bigSwitch === 1) {
+                if (_this.playerXballPlayed === 1) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns1);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns2);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns3);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns4);
+                }
+                else if (_this.playerXballPlayed === 2) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns1);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns2);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns3);
+                }
+                else if (_this.playerXballPlayed === 3) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns1);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns2);
+                }
+                else if (_this.playerXballPlayed === 4) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(emptyRuns1);
+                }
+            }
+            else if (_this.bigSwitch === 2) {
+                if (_this.playerXballPlayed === 1) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns1);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns2);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns3);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns4);
+                }
+                else if (_this.playerXballPlayed === 2) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns1);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns2);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns3);
+                }
+                else if (_this.playerXballPlayed === 3) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns1);
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns2);
+                }
+                else if (_this.playerXballPlayed === 4) {
+                    document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(emptyRuns1);
+                }
+            }
+            _this.playerXballPlayed = 6;
         };
         this.hitClicked = function () {
             var _a, _b;
@@ -220,17 +268,18 @@ var cricketPlay = /** @class */ (function () {
                             _this.maxScore1 = _this.tempTotal1;
                             _this.maxRowNumber1 = _this.team1PlayerPlayed;
                         }
+                        _this.playerXballPlayed++;
                     }
                     else {
                         var currRuns = document.createElement("td");
                         currRuns.innerHTML = "X";
                         document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(currRuns);
+                        _this.runEvents();
                     }
-                    _this.playerXballPlayed++;
                 }
                 else if (_this.playerXballPlayed === 6) {
                     var currRuns = document.createElement("td");
-                    currRuns.innerHTML = _this.tempTotal1;
+                    currRuns.innerHTML = "".concat(_this.tempTotal1);
                     document.getElementById("t".concat(_this.bigSwitch).concat(_this.team1PlayerPlayed)).appendChild(currRuns);
                     _this.playerXballPlayed = 0;
                     _this.team1PlayerPlayed++;
@@ -261,22 +310,23 @@ var cricketPlay = /** @class */ (function () {
                         var currRuns = document.createElement("td");
                         currRuns.innerHTML = "".concat(tempRun);
                         document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(currRuns);
-                        _this.tempTotal1 = _this.tempTotal1 + tempRun;
+                        _this.tempTotal2 = _this.tempTotal2 + tempRun;
                         if (_this.tempTotal2 > _this.maxScore2) {
                             _this.maxScore2 = _this.tempTotal2;
                             _this.maxRowNumber2 = _this.team2PlayerPlayed;
                         }
+                        _this.playerXballPlayed++;
                     }
                     else {
                         var currRuns = document.createElement("td");
                         currRuns.innerHTML = "X";
                         document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(currRuns);
+                        _this.runEvents();
                     }
-                    _this.playerXballPlayed++;
                 }
                 else if (_this.playerXballPlayed === 6) {
                     var currRuns = document.createElement("td");
-                    currRuns.innerHTML = _this.tempTotal1;
+                    currRuns.innerHTML = _this.tempTotal2;
                     document.getElementById("t".concat(_this.bigSwitch).concat(_this.team2PlayerPlayed)).appendChild(currRuns);
                     _this.playerXballPlayed = 0;
                     _this.team2PlayerPlayed++;
