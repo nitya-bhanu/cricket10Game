@@ -374,7 +374,7 @@ class cricketPlay {
         this.playerXballPlayed = 0;
         this.team2PlayerPlayed++;
         this.totalTeam2Runs = this.totalTeam2Runs + this.tempTotal2;
-        this.tempTotal1 = 0;
+        this.tempTotal2 = 0;
         this.toggleSameRowSwitch = 0;
 
         if (this.tempTotal2 > this.maxScore2) {

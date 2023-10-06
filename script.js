@@ -331,7 +331,7 @@ var cricketPlay = /** @class */ (function () {
                     _this.playerXballPlayed = 0;
                     _this.team2PlayerPlayed++;
                     _this.totalTeam2Runs = _this.totalTeam2Runs + _this.tempTotal2;
-                    _this.tempTotal1 = 0;
+                    _this.tempTotal2 = 0;
                     _this.toggleSameRowSwitch = 0;
                     if (_this.tempTotal2 > _this.maxScore2) {
                         _this.maxScore2 = _this.tempTotal2;
